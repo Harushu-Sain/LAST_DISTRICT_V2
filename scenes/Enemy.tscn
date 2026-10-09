@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://last_district_v2_enemy"]
+
+[node name="Enemy" type="CharacterBody3D"]
+script = ExtResource("enemy.gd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("capsule_shape")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("capsule_mesh")
+material = SubResource("enemy_material")
+
+[sub_resource type="CapsuleShape3D" id="capsule_shape"]
+radius = 0.5
+height = 2.0
+
+[sub_resource type="CapsuleMesh" id="capsule_mesh"]
+radius = 0.5
+height = 2.0
+radial_segments = 8
+ring_count = 4
+
+[sub_resource type="ShaderMaterial" id="enemy_material"]
+shader = SubResource("enemy_shader")
+
+[sub_resource type="Shader" id="enemy_shader"]
+code = '''
+shader_type spatial;
+void fragment() {
+    ALBEDO = vec3(0.8, 0.2, 0.2);
+    METALLIC = 0.1;
+    ROUGHNESS = 0.9;
+}
+'''

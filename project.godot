@@ -1,0 +1,9 @@
+[application]
+
+config/name="LAST DISTRICT V2"
+config/features/2d/physics/use_pixel_snap=false
+run/main_scene="res://Main.tscn"
+
+[rendering]
+
+renderer/rendering_method="forward_plus"

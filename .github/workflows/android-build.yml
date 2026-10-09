@@ -1,0 +1,53 @@
+name: Build LAST DISTRICT V2 APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup JDK 11
+        uses: actions/setup-java=======
+>>>>>>> parent of 3d8b1c3 (Update player.gd with attack cooldown)
+v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+      - name: Download Godot 4.2.1 Linux Editor
+        run: |
+          mkdir -p godot
+          wget -q https://downloads.tuxfamily.org/godotengine/4.2.1/Godot_v4.2.1-stable_linux_x86_64.zip
+          unzip -q Godot_v4.2.1-stable_linux_x86_64.zip -d godot
+          chmod +x godot/Godot_v4.2.1-stable_linux_x86_64.x86_64
+      - name: Download Android Export Templates
+        run: |
+          mkdir -p android_templates
+          wget -q https://downloads.tuxfamily.org/godotengine/4.2.1/Godot_v4.2.1_export_templates.tpz
+          unzip -q Godot_v4.2.1_export_templates.tpz -d android_templates
+      - name: Set up Export Templates
+        run: |
+          mkdir -p ~/.local/share/godot/templates/4.2.1.stable/
+          cp -r android_templates/* ~/.local/share/godot/templates/4.2.1.stable/
+      - name: Export Android APK
+        run: |
+          ./godot/Godot_v4.2.1-stable_linux_x86_64.x86_64 --headless --export-debug Android build/LAST_DISTRICT_V2.apk
+      - name: Verify APK
+        run: |
+          if [ -f build/LAST_DISTRICT_V2.apk ]; then
+            echo "APK found!"
+            ls -lh build/
+          else
+            echo "APK not found!"
+            exit 1
+          fi
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LAST_DISTRICT_V2_apk
+          path: build/LAST_DISTRICT_V2.apk
