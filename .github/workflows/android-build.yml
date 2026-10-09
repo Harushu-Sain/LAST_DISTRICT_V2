@@ -49,7 +49,7 @@ jobs:
           set -euo pipefail
           mkdir -p godot
           curl -fL --retry 3 \
-            https://downloads.tuxfamily.org/godotengine/4.2.1/Godot_v4.2.1-stable_linux.x86_64.zip \
+            https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_linux.x86_64.zip \
             -o godot-editor.zip
           unzip -q godot-editor.zip -d godot
           GODOT_BIN="godot/Godot_v4.2.1-stable_linux.x86_64"
@@ -62,7 +62,7 @@ jobs:
         run: |
           set -euo pipefail
           curl -fL --retry 3 \
-            https://downloads.tuxfamily.org/godotengine/4.2.1/Godot_v4.2.1-stable_export_templates.tpz \
+            https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_export_templates.tpz \
             -o godot-templates.tpz
           mkdir -p "$HOME/.local/share/godot/templates/4.2.1.stable"
           unzip -q godot-templates.tpz -d templates-unpacked
