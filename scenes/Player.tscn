@@ -1,38 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://last_district_v2_player"]
+[gd_scene load_steps=5 format=3 uid="uid://last_district_v2_player"]
 
-[node name="Player" type="CharacterBody3D" groups=["player"]]
-script = ExtResource("player.gd")
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("capsule_shape")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("capsule_mesh")
-material = SubResource("player_material")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-position = Vector3(0, 1.5, 0)
-rotation = Vector3(-0.3, 0, 0)
-
-[sub_resource type="CapsuleShape3D" id="capsule_shape"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
 radius = 0.5
 height = 2.0
 
-[sub_resource type="CapsuleMesh" id="capsule_mesh"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
 radius = 0.5
 height = 2.0
 radial_segments = 8
-ring_count = 4
+rings = 4
 
-[sub_resource type="ShaderMaterial" id="player_material"]
-shader = SubResource("player_shader")
+[sub_resource type="StandardMaterial3D" id="Material_player"]
+albedo_color = Color(0.2, 0.6, 0.9, 1)
 
-[sub_resource type="Shader" id="player_shader"]
-code = '''
-shader_type spatial;
-void fragment() {
-    ALBEDO = vec3(0.2, 0.6, 0.9);
-    METALLIC = 0.2;
-    ROUGHNESS = 0.8;
-}
-'''
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+position = Vector3(0, 1, 0)
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape_player")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_player")
+surface_material_override/0 = SubResource("Material_player")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+position = Vector3(0, 2.5, 5)
+rotation = Vector3(-0.3, 0, 0)
+current = true
