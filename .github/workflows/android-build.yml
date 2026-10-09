@@ -17,6 +17,12 @@ jobs:
           java-version: '17'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
+        with:
+          api-level: 33
+          build-tools: 33.0.0
+          ndk-version: 25b
+          platform-tools: true
+          cmake: true
       - name: Download Godot 4.2.1 Linux Editor
         run: |
           mkdir -p godot
