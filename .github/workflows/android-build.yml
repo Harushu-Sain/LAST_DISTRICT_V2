@@ -64,15 +64,27 @@ jobs:
           curl -fL --retry 3 \
             https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_export_templates.tpz \
             -o godot-templates.tpz
-          mkdir -p "$HOME/.local/share/godot/templates/4.2.1.stable"
+          mkdir -p "$HOME/.local/share/godot/export_templates/4.2.1.stable"
           unzip -q godot-templates.tpz -d templates-unpacked
           if [ -d templates-unpacked/templates ]; then
-            cp -a templates-unpacked/templates/. "$HOME/.local/share/godot/templates/4.2.1.stable/"
+            cp -a templates-unpacked/templates/. "$HOME/.local/share/godot/export_templates/4.2.1.stable/"
           else
-            cp -a templates-unpacked/. "$HOME/.local/share/godot/templates/4.2.1.stable/"
+            cp -a templates-unpacked/. "$HOME/.local/share/godot/export_templates/4.2.1.stable/"
           fi
-          test -f "$HOME/.local/share/godot/templates/4.2.1.stable/android_debug.apk"
-          test -f "$HOME/.local/share/godot/templates/4.2.1.stable/android_release.apk"
+          test -f "$HOME/.local/share/godot/export_templates/4.2.1.stable/android_debug.apk"
+          test -f "$HOME/.local/share/godot/export_templates/4.2.1.stable/android_release.apk"
+
+      - name: Configure Android debug keystore
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.android"
+          keytool -genkeypair -v \
+            -keystore "$HOME/.android/debug.keystore" \
+            -storepass android -alias androiddebugkey -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US" \
+            -keyalg RSA -keysize 2048 -validity 10000
+          echo "ANDROID_DEBUG_KEYSTORE=$HOME/.android/debug.keystore" >> "$GITHUB_ENV"
 
       - name: Validate Godot project
         shell: bash
