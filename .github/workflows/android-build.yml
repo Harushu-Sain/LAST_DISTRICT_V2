@@ -86,6 +86,23 @@ jobs:
             -keyalg RSA -keysize 2048 -validity 10000
           echo "ANDROID_DEBUG_KEYSTORE=$HOME/.android/debug.keystore" >> "$GITHUB_ENV"
 
+      - name: Configure Godot Android SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_HOME:-${ANDROID_SDK_ROOT}}"
+          mkdir -p "$HOME/.config/godot"
+          cat > "$HOME/.config/godot/editor_settings-4.tres" <<EOF
+          [gd_resource type="EditorSettings" format=3]
+
+          [resource]
+          export/android/android_sdk_path = "$SDK_ROOT"
+          export/android/debug_keystore = "$HOME/.android/debug.keystore"
+          EOF
+          test -d "$SDK_ROOT/platform-tools"
+          test -s "$HOME/.android/debug.keystore"
+          echo "Android SDK and debug keystore paths configured."
+
       - name: Validate Godot project
         shell: bash
         run: |
